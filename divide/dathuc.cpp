@@ -1,3 +1,16 @@
+/*
+    Dãy số a0, a1, a2, ..., an và số thực x cho trước. 
+    Hãy tính giá trị của đa thức Pn(x) = a0 + a1*x + a2*x^2 + ... + an*x^n
+    bằng cách sử dụng phương pháp chia để trị và không sử dụng phương pháp chia để trị.
+    Input:  3
+            a[0] = 1
+            a[1] = 2
+            a[2] = 3
+            a[3] = 4
+            x = 2
+    Output: Pn(x) = 49
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 #define MAX 100

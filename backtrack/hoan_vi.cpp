@@ -1,3 +1,10 @@
+/*
+    Cho n là số nguyên dương. Hãy liệt kê tất cả các hoán vị của 1, 2, ..., n.
+    Input: n
+    Output: Các hoán vị của 1, 2, ..., n
+    
+*/
+
 #include <iostream>
 #define MAX 100
 

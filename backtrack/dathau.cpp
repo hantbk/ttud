@@ -1,3 +1,13 @@
+/*
+Cho bàn cờ vua kích thước n x n. 
+Hãy đặt n quân hậu lên bàn cờ sao cho không có quân hậu nào ăn được quân hậu khác.
+Giai thuat: 
+    - Dùng 3 mảng b, c, d để kiểm tra cột, đường chéo chính, đường chéo phụ
+    - Duyệt qua các cột, nếu cột chưa có hậu, đường chéo chính, đường chéo phụ chưa có hậu thì đặt hậu vào đó
+    - Gọi đệ quy đặt hậu tiếp theo
+    - Khi đặt hết n hậu, in ra cách đặt hậu
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 #define MAX 100

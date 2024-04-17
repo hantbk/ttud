@@ -1,3 +1,20 @@
+/*
+Cho số nguyên dương n. 
+Hãy liệt kê tất cả các cách phân tích n thành tổng các số nguyên dương.
+Input:  6
+Output: 1 1 1 1 1 1
+        1 1 1 1 2
+        1 1 1 3
+        1 1 2 2
+        1 1 4
+        1 2 3
+        1 5
+        2 2 2
+        2 4
+        3 3
+        6
+*/
+
 #include<bits/stdc++.h>
 using namespace std;
 #define MAX 100

@@ -1,3 +1,19 @@
+/*
+Cho số nguyên dương m và n. 
+Hãy liệt kê tất cả các cách phân tích số m thành tổng của n số nguyên dương.
+Input:  6 3
+Output: 1 1 4
+        1 2 3
+        1 3 2
+        1 4 1
+        2 1 3
+        2 2 2
+        2 3 1
+        3 1 2
+        3 2 1
+        4 1 1
+*/
+
 #include<bits/stdc++.h>
 using namespace std;
 #define MAX 100

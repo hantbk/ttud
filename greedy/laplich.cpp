@@ -1,3 +1,16 @@
+/*
+    Lap lich cuoc hop
+    Cho n cuoc hop, moi cuoc hop co thoi gian bat dau s[i] va thoi gian ket thuc f[i]
+    Chon cac cuoc hop sao cho khong xung dot thoi gian
+    Y tuong: Sap xep cac cuoc hop theo thoi gian ket thuc tang dan
+    Chon cuoc hop dau tien, sau do chon cuoc hop tiep theo 
+    neu thoi gian bat dau lon hon thoi gian ket thuc cua cuoc hop truoc
+    Input:  8
+            0 1 3 3 4 5 6 8
+            6 4 5 8 7 9 10 11
+    Output: Chon cac cuoc hop sau: 1 2 4 6
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 #define MAX 8

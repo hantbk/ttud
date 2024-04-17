@@ -1,3 +1,10 @@
+/*
+    Cho số tiền N, tìm số tờ tiền ít nhất để trả lại N
+    Ví dụ: N = 123
+    Kết quả: 1 tờ 100, 1 tờ 20, 3 tờ 1 
+    
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 #define MAX 5

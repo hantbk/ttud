@@ -1,3 +1,18 @@
+/*
+    Cho day so a1, a2, ..., an va so S. Dem so day con co tong bang S.
+    Giai thuat:
+        - F(tong, n) = F(tong, n - 1) + F(tong - a[n], n - 1)
+        - F(tong, n) = 1, n = 0, tong = 0
+        - F(tong, n) = 0, n = 0, tong != 0
+    Input:  5
+            1 2 3 4 5
+            5
+    Output: 3
+            1 4
+            2 3
+            5
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 #define INF 1e9
