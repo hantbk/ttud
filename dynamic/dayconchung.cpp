@@ -13,7 +13,7 @@ using namespace std;
 #define ll long long
 #define MOD 1000000007
 
-int n, m, a[MAX], b[MAX];
+int n, m, a[MAX], b[MAX], c[MAX][MAX];
 
 int f(int m, int n)
 {
@@ -24,18 +24,45 @@ int f(int m, int n)
     return max(f(m - 1, n), f(m, n - 1));
 }
 
-void trace(){
+void dp()
+{
+    for (int i = 0; i <= m; i++)
+    {
+        for (int j = 0; j <= n; j++)
+        {
+            if (i == 0 || j == 0)
+            {
+                c[i][j] = 0;
+            }
+            else if (a[i] == b[j])
+            {
+                c[i][j] = c[i - 1][j - 1] + a[i];
+            }
+            else
+            {
+                c[i][j] = max(c[i - 1][j], c[i][j - 1]);
+            }
+        }
+    }
+}
+
+void trace()
+{
     int i = m, j = n;
-    while(i > 0 && j > 0){
-        if(a[i] == b[j]){
+    while (i > 0 && j > 0)
+    {
+        if (a[i] == b[j])
+        {
             cout << a[i] << " ";
             i--;
             j--;
         }
-        else if(f(i-1,j) > f(i,j-1)){
+        else if (f(i - 1, j) > f(i, j - 1))
+        {
             i--;
         }
-        else{
+        else
+        {
             j--;
         }
     }
@@ -62,7 +89,10 @@ int main()
         cin >> b[i];
     }
 
-    cout << "Day con co tong lon nhat = " << f(m, n)<<endl;
+    dp();
+
+    cout << "Day con co tong lon nhat = " << f(m, n) << endl;
+    cout << "Day con co tong lon nhat = " << c[m][n] << endl;
     trace();
 
     return 0;
