@@ -13,7 +13,7 @@ using namespace std;
 #define MOD 1000000007
 
 int n,m;
-int d[1001]; 
+int d[MAX]; 
 vector<int> adj[MAX];
 bool visited[MAX];
 vector<int> topoSort;
@@ -29,7 +29,7 @@ void dfsTopoSort(int u){
 }
 
 void makeSpan(){
-    int f[1001]; // f[u] is the earliest completion time of task u
+    int f[MAX]; // f[u] is the earliest completion time of task u
     for(int u: topoSort){
         f[u] = d[u];
     }
