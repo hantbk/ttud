@@ -23,7 +23,7 @@ bool check(int v)
     // Neu v la diem cuoi cung va chua di het cac diem
     if (v > n)
     {
-        if (!visited[v - n])
+        if (!visited[v - n]) // Neu diem doi dien chua di qua
         {
             return false;
         }
