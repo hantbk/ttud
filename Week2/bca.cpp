@@ -1,69 +1,100 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define INF 1e9
-#define MAX 1000009
-#define ll long long
-#define MOD 1000000009
 
-#define MAX_N 100
-#define MAX_M 30
+#define MAX_N 30 // Maximum number of courses
+#define MAX_M 10 // Maximum number of teachers
 
-int N;                            // number of courses
-int M;                            // number of teachers
-int sizeOfCourse[MAX_N];          // sizeOfCourse[k] là số giáo viên có thể dạy môn k
-vector<int> courseTeachBy[MAX_N]; // courseTeachBy[k] là tập giáo viên có thể dạy môn k
-int conflictCourse[MAX_N][MAX_N]; // conflictCourse[i][j] = 1 nếu có mâu thuẫn giữa môn i và môn j
-int cnt;                          // number of solutions
-int X[MAX_N];                     // X[k] = v là thử phân công giáo viên v cho môn k
-int maxLoad = - INF;
+int N;                              // Number of courses
+int M;                              // Number of teachers
+int teacherOfCourse[MAX_N];         // teacherOfCourse[k] = i means course k is taught by teacher i
+int loadOfTeacher[MAX_M] ;     // loadOfTeacher[i] = j means teacher i has j courses to teach
+vector<int> teacherCanTeach[MAX_N]; // teacherCanTeach[i][j] = k means course i can be taught by teacher k
+bool conflict[MAX_N][MAX_N];        // conflict[i][j] = true means course i and course j cannot be taught by the same teacher
+int resultMinLoad = INT_MAX;        // Minimum load of a teacher
 
-// Kiểm tra xem có thể phân công giáo viên v cho môn k không
-bool check(int v, int k)
+int k;
+int numConflict;
+
+void input()
 {
-    for (int i = 1; i <= k - 1; i++)
+    cin >> M >> N;
+    for (int i = 1; i <= M; i++)
     {
-        // Kiểm tra xem có mâu thuẫn với các môn trước đó hay không vì giả thiết xếp lần lượt các môn
-        // và kiểm tra xem giáo viên v đã được gán cho dạy môn khác chưa
-        if (conflictCourse[i][k] && v == X[i])
+        cin >> k; // Number of courses teacher i can teach
+        int courseId;
+        for (int j = 1; j <= k; j++)
+        {
+            cin >> courseId;
+            teacherCanTeach[courseId].push_back(i); // Teacher i can teach courseId
+        }
+    }
+    cin >> numConflict;
+    for (int i = 1; i <= numConflict; i++)
+    {
+        int a, b;
+        cin >> a >> b;
+        conflict[a][b] = conflict[b][a] = true;
+    }
+
+    // for(int i = 1; i<= N; i++){
+    //     cout << "Course " << i << " can be taught by: ";
+    //     for(int j = 0; j < teacherCanTeach[i].size(); j++){
+    //         cout << teacherCanTeach[i][j] << " ";
+    //     }
+    //     cout << endl;
+    // }
+
+    // for (int i = 1; i <= N; i++)
+    // {
+    //     cout << "Course " << i << " can't be taught by: ";
+    //     for (int j = 1; j <= N; j++)
+    //     {
+    //         if (conflict[i][j])
+    //         {
+    //             cout << j << " ";
+    //         }
+    //     }
+    //     cout << endl;
+    // }
+}
+
+bool check(int teacherId, int courseId)
+{
+    for (int i = 1; i <= N; i++)
+    {
+        // Check if teacherId can teach course i
+        if (teacherOfCourse[i] == teacherId && conflict[i][courseId])
             return false;
     }
     return true;
 }
 
-void solution() {
-    cnt++;
-    cout<<"solution "<<cnt<<endl;
-    for (int t = 1; t <= M; t++)
+void Try(int course_k_th)
+{
+    for (int teacherId : teacherCanTeach[course_k_th])
     {
-        cout<<"course of teacher "<<t<<": ";
-        for(int i =1; i<= N; i++) if(X[i] == t) cout<<i<<", ";
-        cout<<endl;
-    }
-    cout<<"-------------------"<<endl;
-}
-
-void checkMaxLoad(){
-    for(int t = 1; t <= M; t++){
-        int load = 0;
-        for(int i = 1; i <= N; i++){
-            if(X[i] == t) load++;
-        }
-        maxLoad = max(maxLoad, load);
-    }
-    if(maxLoad == - INF) cout<<-1;
-    else cout<<maxLoad;
-}
-
-void Try(int k){
-    for(int v = 0; v < sizeOfCourse[k]; v++){
-        int teacher = courseTeachBy[k][v];
-        if(check(teacher, k)){
-            X[k] = teacher;
-            if(k == N) {
-                // solution();
-                checkMaxLoad();
+        if (check(teacherId, course_k_th))
+        {
+            // Choose teacherId to teach course_k_th
+            teacherOfCourse[course_k_th] = teacherId;
+            loadOfTeacher[teacherId] += 1;
+            if (course_k_th == N)
+            {
+                // Kiem tra load cua cac giao vien trong truong hop moi
+                int currentMaxLoad = 0;
+                for (int i = 1; i <= M; i++)
+                {
+                    currentMaxLoad = max(currentMaxLoad, loadOfTeacher[i]);
+                }
+                // Cap nhat ket qua sao cho load cua giao vien nho nhat
+                resultMinLoad = min(resultMinLoad, currentMaxLoad);
             }
-            else Try(k+1);
+            else if (loadOfTeacher[teacherId] <= resultMinLoad)
+            {
+                Try(course_k_th + 1);
+            }
+            teacherOfCourse[course_k_th] = 0;
+            loadOfTeacher[teacherId] -= 1;
         }
     }
 }
@@ -73,48 +104,9 @@ int main()
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-
-    cin >> M >> N;
-    for (int i = 1; i <= M; i++)
-    {
-        int courses;
-        cin >> courses;
-        for (int k = 1; k <= courses; k++)
-        {
-            int course;
-            cin >> course;
-            courseTeachBy[course].push_back(i);
-            sizeOfCourse[course]++;
-        }
-    }
-    int numConflicts;
-    cin >> numConflicts;
-    for (int i = 1; i <= numConflicts; i++)
-    {
-        int u, v;
-        cin >> u >> v;
-        conflictCourse[u][v] = conflictCourse[v][u] = 1;
-    }
-
-    // for(int i = 1; i <= N; i++){
-    //     for(int j = 1; j <= N; j++){
-    //         cout<<conflictCourse[i][j]<<" ";
-    //     }
-    //     cout<<endl;
-    // }
-
-    // for (int i = 1; i <= N; i++)
-    // {
-    //     cout<<i<<": "<<sizeOfCourse[i]<<endl;
-    // }
-
-    // for(int i = 1; i <= N; i++){
-    //     for(int j = 0; j < courseTeachBy[i].size(); j++){
-    //         cout<<"course "<<i<<" teach by "<<courseTeachBy[i][j]<<endl;
-    //     }
-    // }
-
+    input();
     Try(1);
+    cout << resultMinLoad;
 
     return 0;
 }
