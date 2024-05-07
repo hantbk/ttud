@@ -110,7 +110,10 @@ int main()
         for (int j = 0; j <= 2 * n; j++)
         {
             cin >> c[i][j];
-            cmin = min(c[i][j], cmin);
+            if (c[i][j] > 0)
+            {
+                cmin = min(cmin, c[i][j]);
+            }
         }
     }
     Try(1);

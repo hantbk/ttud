@@ -13,32 +13,43 @@ using namespace std;
 #define MOD 1000000009
 
 int n, m;
-vector<pair<int, int, int>> adj[MAX]; // adj[u] la danh sach ke cua dinh u, moi phan tu la 1 cap (v, c[u], d[u]) voi v la dinh ke cua u, c[u] la gia ve khi len xe tai dinh u, d[u] la so thanh pho toi da ma buyt co the di den tren 1 hanh trinh di qua u
+queue<pair<int, pair<int, int> > > q; // q lưu trữ tổng số tiền cần phải trả, số thành phố đã đi qua, số trạm còn lại
+vector<int> adj[MAX];               // adj[u] lưu trữ các thành phố kề với thành phố u và cách đi giữa chúng
 int c[MAX], d[MAX];
+int f[MAX][MAX]; // f[u][rem] = cost
+int res = MAX;
 
-void dijkstra(int s, int t)
+void minCost()
 {
-    //Mang cost luu gia ve nho nhat de di den moi dinh
-    vector<ll> cost(n + 1, INF);
-    vector<bool> visited(n + 1, false);
-    cost[s] = 0;
-    //Tao hang doi uu tien pq luu cap (cost[v], v) voi cost[v] la gia ve nho nhat de di den v
-    priority_queue<pair<int, int, int>, vector<pair<int, int, int>>, greater<pair<int, int, int>>> pq;
-    pq.push({0, s, d[s]});
-    while (!pq.empty())
+    q.push({ c[1], {1, d[1]}});
+    while (!q.empty())
     {
-        //Lay dinh u co cost[u] nho nhat ra khoi hang doi
-        pair<int, int, int> top = pq.top();
-        pq.pop();
-        int u = top.second;
-        int cost_u = top.first;
-        int d_u = top.third; //So thanh pho toi da ma buyt co the di den tren 1 hanh trinh di qua u
-        //Danh dau u da duoc tham
-        if(d_u > 0) {
-            
+        int cost = q.front().first;
+        int u = q.front().second.first;
+        int rem = q.front().second.second;
+        q.pop();
+        if (f[u][rem] > cost || f[u][rem] == -1)
+        {
+            q.push({ cost + c[u], {u, d[u]}});
+            f[u][rem] = cost + c[u];
+        }
+        if (rem > 0)
+        {
+            for (int i=0; i< adj[u].size(); ++i)
+            {
+                int v = adj[u][i];
+                if (f[v][rem] > cost || f[v][rem] == -1)
+                {
+                    q.push({ cost, {v, rem - 1}});
+                    f[v][rem] = cost;
+                }
+            }
+        }
+        if(u == n) {
+            res = min(res, cost);
         }
     }
-    
+    cout<<res;
 }
 
 int main()
@@ -54,11 +65,12 @@ int main()
     {
         int u, v;
         cin >> u >> v;
-        adj[u].push_back({v, c[u], d[u]});
-        adj[v].push_back({u, c[v], d[v]});
+        adj[u].push_back(v);
+        adj[v].push_back(u);
     }
 
-    dijkstra(1, n);
+    memset(f, -1, sizeof(f));
+    minCost();
 
     return 0;
 }
