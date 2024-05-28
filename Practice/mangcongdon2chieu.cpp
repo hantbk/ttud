@@ -25,7 +25,7 @@ int main() {
     {
         S[i][0] = 0;
     }
-    for (int j = 0; i <= m; i++)
+    for (int j = 0; j <= m; j++)
     {
         S[0][j] = 0;
     }

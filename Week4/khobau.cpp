@@ -22,6 +22,8 @@ bool cmp(Treasure a, Treasure b)
 void timkhobau()
 {
     sort(a.begin(), a.end(), cmp);
+    for(auto it : a)
+        cout<<it.x<<" "<<it.y<<" "<<it.value<<endl;
 
     for (int i = 0; i < n; i++)
     {
@@ -41,7 +43,7 @@ void timkhobau()
         res = max(res, f[i]);
     }
 
-    cout << res;
+    // cout << res;
 }
 
 int main()

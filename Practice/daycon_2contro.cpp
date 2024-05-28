@@ -7,21 +7,26 @@ using namespace std;
 
 int res, n, a[10000], Q, S;
 
-int main() {
-    ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-    cin>>n>>Q;
+    cin >> n >> Q;
     for (int i = 1; i <= n; i++)
     {
-        cin>>a[i];
+        cin >> a[i];
     }
+
+
     // for (int i = 1; i <= n; i++)
     // {
     //     int S = 0;
     //     for (int j = i; j <= n; j++)
     //     {
     //         S = S + a[j];
-    //         if (S <= q)
+    //         if (S <= Q)
     //         {
     //             res = max(res, j-i+1);
     //         }
@@ -39,7 +44,7 @@ int main() {
         }
         res = max(res, R - L + 1);
     }
-    cout<<res;
+    cout << res;
 
     return 0;
 }
