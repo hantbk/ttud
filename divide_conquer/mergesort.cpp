@@ -17,6 +17,11 @@ void merge(int b, int m, int e)
             ta[k] = a[j];
             j++;
         }
+        else if (j > e)
+        {
+            ta[k] = a[i];
+            i++;
+        }
         else
         {
             if (a[i] > a[j])

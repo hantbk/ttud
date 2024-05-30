@@ -2,36 +2,41 @@
 using namespace std;
 const int MAX = 100;
 
-int a[MAX], n; // Chua cau hinh hien tai
+int x[MAX], n; // Chua cau hinh hien tai
 
-void solution(){
+bool check(int v, int k)
+{
+    if (k == 1)
+        return true;
+    return x[k - 1] + v <= 1;
+}
+
+void solution()
+{
     for (int i = 1; i <= n; i++)
     {
-        cout<<a[i]<<" ";
+        cout << x[i] << " ";
     }
-    cout<<endl;
+    cout << endl;
 }
 
-// Sinh dan tung gia tri a[1], a[2], ..., a[k]
-// void Try(int k){
-//     // Da sinh du
-//     if(k > n) solution();
-//     else { // Chua sinh xong day
-//         a[k] = 0; Try(k+1);
-//         a[k] = 1; Try(k+1);
-//     }
-// }
-
-void Try(int k){
+void Try(int k)
+{
     for (int v = 0; v <= 1; v++)
     {
-        a[k] = v;
-        if(k == n) solution();
-        else Try(k + 1);
+        if (check(v, k))
+        {
+            x[k] = v;
+            if (k == n)
+                solution();
+            else
+                Try(k + 1);
+        }
     }
 }
 
-int main(){
-    cin>>n;
+int main()
+{
+    cin >> n;
     Try(1);
 }

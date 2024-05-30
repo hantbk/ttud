@@ -1,11 +1,12 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 #define INF 1e9
 #define MAX 1000009
 #define ll long long
 #define MOD 1000000007
+#define ull unsigned long long
 
-unsigned long long x,n;
+ull x, n;
 
 // int Pow1(int x, int n){
 //     int res = 1;
@@ -21,25 +22,28 @@ unsigned long long x,n;
 //     return x * Pow2(x, n-1);
 // }
 
-unsigned long long Pow3(unsigned long long x, unsigned long long n) {
-    if (n == 0) return 1; // Base case: x^0 = 1
-    unsigned long long half = Pow3(x, n / 2); // Compute x^(n/2)
+ull Pow3(ull x, ull n)
+{
+    x = x % MOD; // Reduce x modulo MOD initially
+    if (n == 1)
+        return x;               // Base case: x^0 = 1
+    ull half = Pow3(x, n / 2);  // Compute x^(n/2)
     half = (half * half) % MOD; // Square the result
-    
-    if (n % 2 != 0) {
+
+    if (n % 2 != 0)
+    {
         half = (half * x) % MOD; // If n is odd, multiply by x
     }
-    
     return half;
 }
 
-int main() {
+int main()
+{
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
 
     cin >> x >> n;
-    x = x % MOD; // Reduce x modulo MOD initially
     cout << Pow3(x, n) << endl;
 
     return 0;

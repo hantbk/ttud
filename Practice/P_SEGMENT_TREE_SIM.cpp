@@ -72,11 +72,12 @@ int main()
     cin.tie(0);
     cout.tie(0);
 
+    memset(maxVal, 0 , sizeof(maxVal));
     cin >> N;
     for (int i = 1; i <= N; i++)
         cin >> a[i];
-
-    buildSegmentTree(1, 1, N);
+    for(int i = 1; i <= N; i++) update(i,a[i]);
+    // buildSegmentTree(1, 1, N);
 
     int k;
     cin >> k;
@@ -94,6 +95,7 @@ int main()
         {
             int i, v;
             cin >> i >> v;
+            a[i] = v;
             update(i, v);
         }
     }

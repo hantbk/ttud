@@ -12,7 +12,7 @@ void mining() {
     {
         F[i] = a[i]; // Chỉ chọn được 1 kho do kho tiếp theo phải cách ít nhất L1 kho
     }
-    for (int i = L1; i <= n; i++)
+    for (int i = L1 + 1; i <= n; i++)
     {
         for (int j = i - L2; j <= i - L1; j++)
         {

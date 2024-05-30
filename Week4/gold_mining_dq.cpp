@@ -1,3 +1,12 @@
+/*
+Vương quốc ALPHA có n kho vàng nằm trên một đường thẳng và
+được đánh số 1, 2,..., n. Kho i có số lượng ai(ai là số nguyên không âm)
+và nằm ở tọa độ i (i=1,...,n). Vua ALPHA mở ra một cuộc thi dành cho những
+thợ săn có nhiệm vụ tìm ra tập con kho vàng có tổng số vàng lớn nhất với
+điều kiện khoảng cách giữa 2 kho được chọn phải lớn hơn hoặc bằng L1 và
+nhỏ hơn hoặc bằng tới L2.
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 #define INF 1e9
@@ -27,12 +36,15 @@ void mining_deque()
             }
             q.push_back(i - L1);
         }
-        if(q.empty()){
+        if (q.empty())
+        {
             S[i] = a[i];
-        } else S[i] = a[i] + S[q.front()];
+        }
+        else
+            S[i] = a[i] + S[q.front()];
         ans = max(ans, S[i]);
     }
-    cout<<ans;
+    cout << ans;
 }
 
 int main()

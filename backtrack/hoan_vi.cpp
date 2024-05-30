@@ -2,7 +2,7 @@
     Cho n là số nguyên dương. Hãy liệt kê tất cả các hoán vị của 1, 2, ..., n.
     Input: n
     Output: Các hoán vị của 1, 2, ..., n
-    
+
 */
 
 #include <iostream>
@@ -10,42 +10,46 @@
 
 using namespace std;
 
-int a[MAX], n, m;
-bool mark[MAX];
+int x[MAX], n;
+bool visited[MAX];
 
-void solution(){
+void solution()
+{
     for (int i = 1; i <= n; i++)
     {
-        cout<<a[i]<<" ";
+        cout << x[i] << " ";
     }
-    cout<<endl;
+    cout << endl;
 }
 
-void Try(int k){
-    // Da sinh xong cau hinh
-    if (k > n)
+bool check(int v, int k)
+{
+    return visited[v] == false;
+}
+
+void Try(int k)
+{
+    for (int v = 1; v <= n; v++)
     {
-        solution();
-        return;
-    } 
-    else // Chua sinh xong cau hinh
-    {
-        for (int i = 1; i <= n; i++)
+        if (check(v, k))
         {
-            if (!mark[i])
-            {
-                mark[i] = true;
-                a[k] = i;
-                Try(k+1);
-                mark[i] = false;
-            }
+            x[k] = v;
+            visited[v] = true;
+            if (k == n)
+                solution();
+            else
+                Try(k + 1);
+            visited[v] = false;
         }
     }
-} 
+}
 
-int main() {
-    cin>>n;
+int main()
+{
+    cin >> n;
 
+    for (int v = 1; v <= n; v++)
+        visited[v] = false;
     Try(1);
 
     return 0;
