@@ -14,12 +14,13 @@ using namespace std;
 #define ll long long
 #define MOD 1000000009
 
-int n, L1, L2, ans;
+int n, L1, L2;
 int S[MAX]; // S[i] là tổng trọng số của tập con lớn nhất của tập {1,2,...,i} thoả mãn điều kiện giãn cách
 int a[MAX]; // a[i] là trọng số của phần tử i
 
 void lss()
 {
+    int ans = 0;
     for (int i = 1; i <= L1; i++)
     {
         S[i] = a[i];
@@ -32,14 +33,39 @@ void lss()
             S[i] = max(S[i], S[j] + a[i]);
         }
     }
-    for(int i = 1; i<= n; i++){
+    for (int i = 1; i <= n; i++)
+    {
         ans = max(ans, S[i]);
     }
-    cout<<ans<<endl;
+    cout << ans << endl;
 }
 
-void lss_dq(){
-    
+void lss_dq()
+{
+    deque<int> dq;
+    int ans = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        while (!dq.empty() && dq.front() < i - L2)
+            dq.pop_front();
+        int j = i - L1;
+        if (j >= 1)
+        {
+            while (!dq.empty() && S[dq.back()] < S[j])
+                dq.pop_back();
+            dq.push_back(j);
+        }
+        if (dq.empty())
+        {
+            S[i] = a[i];
+        }
+        else
+        {
+            S[i] = a[i] + S[dq.front()];
+        }
+        ans = max(ans, S[i]);
+    }
+    cout << ans << endl;
 }
 
 int main()
@@ -52,6 +78,7 @@ int main()
     for (int i = 1; i <= n; i++)
         cin >> a[i];
     lss();
+    lss_dq();
 
     return 0;
 }

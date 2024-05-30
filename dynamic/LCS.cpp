@@ -82,14 +82,14 @@ void dp(){
             }
         }
     }
-    for (int i = 0; i <= m; i++)
-    {
-        for (int j = 0; j <= n; j++)
-        {
-            cout<<L[i][j]<<" ";
-        }
-        cout<<endl;
-    }
+    // for (int i = 0; i <= m; i++)
+    // {
+    //     for (int j = 0; j <= n; j++)
+    //     {
+    //         cout<<L[i][j]<<" ";
+    //     }
+    //     cout<<endl;
+    // }
     
     cout<<L[m][n]<<endl;
     return;
@@ -111,7 +111,7 @@ int main() {
     }
     // cout<<S(m, n)<<endl;
     dp();
-    trace(m, n);
+    // trace(m, n);
 
     return 0;
 }

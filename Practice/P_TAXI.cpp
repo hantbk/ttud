@@ -101,7 +101,8 @@ int main()
         for (int j = 0; j <= 2 * n; j++)
         {
             cin >> c[i][j];
-            cmin = min(cmin, c[i][j]);
+            if (j != i && c[i][j] < cmin)
+                cmin = c[i][j];
         }
     }
     Try(1);

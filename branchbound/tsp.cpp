@@ -1,75 +1,78 @@
-/*
-    TSP - Travelling Salesman Problem
-    Cho n diem tren mat phang, tim duong di ngan nhat di qua tat ca cac diem
-    Moi diem chi duoc di qua 1 lan
-    Dung thuat toan nhanh canh
-    1. Khoi tao gia tri a[0] = 0, b[0] = false
-    2. Tim gia tri a[k], tong do dai duong di hien tai la "tong"
-    3. Neu tong > dodai thi return
-    4. Neu k == n thi kiem tra xem tong + c[a[n-1]][a[0]] co nho hon dodai khong
-    5. Neu co thi cap nhat dodai
-    6. Neu khong thi return
-    7. Duyet i tu 0 den n
-    8. Neu b[i] = true thi
-    9. b[i] = false
-    10. a[k] = i
-    11. Goi lai ham Try(k+1, tong + c[a[k-1]][a[k]])
-    12. b[i] = true
-    13. Ket thuc
-    Input:  4
-            0 3 7 4
-            3 0 1 2
-            7 1 0 5
-            4 2 5 0
-    Output: Duong di ngan nhat 10
-*/
-
 #include <bits/stdc++.h>
 using namespace std;
+#define INF 1e9
+#define MAX 1000009
+#define ll long long
+#define MOD 1000000009
 
-const int n = 4;
-int c[n][n] = {
-    {0, 3, 7, 4},
-    {3, 0, 1, 2},
-    {7, 1, 0, 5},
-    {4, 2, 5, 0},
-};
+int n;
+int c[105][105];
+int x[100];
+bool visited[105];
+int f;
+int f_best = INF;
+int cmin = INF;
 
-int a[n], dodai = 10000000;
-bool b[n];
-
-// Tim gia tri a[k], tong do dai duong di hien tai la "tong"
-void Try(int k, int tong)
+void inp()
 {
-    if(dodai < tong) return;
+    cin >> n;
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= n; j++)
+        {
+            cin >> c[i][j];
+            if (j != i && c[i][j] < cmin)
+                cmin = c[i][j];
+        }
+    }
+    memset(visited, false, sizeof(visited));
+}
 
-    if (k == n)
+bool check(int v, int k)
+{
+    if (visited[v])
+        return false;
+    return true;
+}
+
+void updateBest()
+{
+    if (f + c[x[n]][1] < f_best)
+        f_best = f + c[x[n]][1];
+}
+
+void Try(int k)
+{
+    for (int v = 1; v <= n; v++)
     {
-        if (dodai > tong + c[a[n - 1]][a[0]])
+        if (check(v, k))
         {
-            dodai = tong + c[a[n - 1]][a[0]];
-            return;
+            x[k] = v;
+            visited[v] = true;
+            f += c[x[k - 1]][x[k]];
+            if (k == n)
+                updateBest();
+            else{ if(f + cmin*(n + 1 - k) < f_best)
+
+                Try(k + 1);
+            }
+            visited[v] = false;
+            f -= c[x[k - 1]][x[k]];
         }
     }
-    for (int i = 0; i < n; i++)
-    {
-        if (b[i])
-        {
-            b[i] = false;
-            a[k] = i;
-            Try(k+1, tong + c[a[k-1]][a[k]]);
-            b[i] = true;
-        }
-    }
-    
 }
 
 int main()
 {
-    for (int i = 0; i < n; i++) b[i] = true;
-    a[0] = 0;
-    b[0] = false;
-    Try(1, 0);
-    cout<<"Duong di ngan nhat "<<dodai;
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    inp();
+    x[1] = 1;
+    visited[1] = true;
+    Try(2);
+    cout << f_best << endl;
+
     return 0;
 }

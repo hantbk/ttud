@@ -9,20 +9,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define INF 1e9
-#define MAX 100000
+#define MAX 1000009
 #define ll long long
 #define MOD 1000000007
 
 int n, m, a[MAX], b[MAX], c[MAX][MAX];
 
-int f(int m, int n)
-{
-    if (m == 0 || n == 0)
-        return 0;
-    if (a[m] == b[n])
-        return f(m - 1, n - 1) + a[m];
-    return max(f(m - 1, n), f(m, n - 1));
-}
+// int f(int m, int n)
+// {
+//     if (m == 0 || n == 0)
+//         return 0;
+//     if (a[m] == b[n])
+//         return f(m - 1, n - 1) + a[m];
+//     return max(f(m - 1, n), f(m, n - 1));
+// }
 
 void dp()
 {
@@ -46,27 +46,27 @@ void dp()
     }
 }
 
-void trace()
-{
-    int i = m, j = n;
-    while (i > 0 && j > 0)
-    {
-        if (a[i] == b[j])
-        {
-            cout << a[i] << " ";
-            i--;
-            j--;
-        }
-        else if (f(i - 1, j) > f(i, j - 1))
-        {
-            i--;
-        }
-        else
-        {
-            j--;
-        }
-    }
-}
+// void trace()
+// {
+//     int i = m, j = n;
+//     while (i > 0 && j > 0)
+//     {
+//         if (a[i] == b[j])
+//         {
+//             cout << a[i] << " ";
+//             i--;
+//             j--;
+//         }
+//         else if (f(i - 1, j) > f(i, j - 1))
+//         {
+//             i--;
+//         }
+//         else
+//         {
+//             j--;
+//         }
+//     }
+// }
 
 
 int main()
@@ -75,25 +75,26 @@ int main()
     cin.tie(0);
     cout.tie(0);
 
-    cout << "Nhap m = ";
+    // cout << "Nhap m = ";
     cin >> m;
+    // cout << "Nhap n = ";
+    cin >> n;
     for (int i = 1; i <= m; i++)
     {
         cin >> a[i];
     }
 
-    cout << "Nhap n = ";
-    cin >> n;
     for (int i = 1; i <= n; i++)
     {
         cin >> b[i];
     }
 
     dp();
+    cout<<c[m][n];
 
-    cout << "Day con co tong lon nhat = " << f(m, n) << endl;
-    cout << "Day con co tong lon nhat = " << c[m][n] << endl;
-    trace();
+    // cout << "Day con co tong lon nhat = " << f(m, n) << endl;
+    // cout << "Day con co tong lon nhat = " << c[m][n] << endl;
+    // trace();
 
     return 0;
 }
