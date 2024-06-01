@@ -3,9 +3,8 @@
 using namespace std;
 
 int m, n, r, c;
-queue<pair<int, pair<int, int>>> q;
-int step = 0;
-int hang[4] = {-1, 1, 0, 0};
+queue<pair<int, pair<int, int>>> q; // step, {x, y}
+int hang[4] = {-1, 1, 0, 0}; // up, down, left, right
 int cot[4] = {0, 0, 1, -1};
 int stepMin = 100000;
 int visited[1001][1001];

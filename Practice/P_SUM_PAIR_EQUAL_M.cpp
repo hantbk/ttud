@@ -6,10 +6,9 @@ using namespace std;
 #define MOD 1000000009
 
 int n, M;
-map<int, int> mp;
-int f[MAX];
 int res;
 int a[MAX];
+unordered_set<int> s;
 
 int main() {
     ios_base::sync_with_stdio(0);
@@ -20,8 +19,11 @@ int main() {
     for (int i = 1; i <= n; i++)
     {
         cin>>a[i];
-        res = (res + mp[M - a[i]]) % MOD;
-        mp[a[i]]++;
+        if (s.find(M - a[i]) != s.end())
+        {
+            res++;
+        }
+        s.insert(a[i]);
     }
     
     cout << res;

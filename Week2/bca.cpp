@@ -7,20 +7,18 @@ using namespace std;
 int N;                              // Number of courses
 int M;                              // Number of teachers
 int teacherOfCourse[MAX_N];         // teacherOfCourse[k] = i means course k is taught by teacher i
-int loadOfTeacher[MAX_M] ;     // loadOfTeacher[i] = j means teacher i has j courses to teach
+int loadOfTeacher[MAX_M];           // loadOfTeacher[i] = j means teacher i has j courses to teach
 vector<int> teacherCanTeach[MAX_N]; // teacherCanTeach[i][j] = k means course i can be taught by teacher k
 bool conflict[MAX_N][MAX_N];        // conflict[i][j] = true means course i and course j cannot be taught by the same teacher
 int resultMinLoad = INT_MAX;        // Minimum load of a teacher
-
-int k;
-int numConflict;
 
 void input()
 {
     cin >> M >> N;
     for (int i = 1; i <= M; i++)
     {
-        cin >> k; // Number of courses teacher i can teach
+        int k; // Number of courses teacher i can teach
+        cin >> k; 
         int courseId;
         for (int j = 1; j <= k; j++)
         {
@@ -28,6 +26,7 @@ void input()
             teacherCanTeach[courseId].push_back(i); // Teacher i can teach courseId
         }
     }
+    int numConflict;
     cin >> numConflict;
     for (int i = 1; i <= numConflict; i++)
     {

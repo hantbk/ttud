@@ -51,7 +51,7 @@ void TryX(int u, int k)
         if (checkX(v, u, k))
         {
             x[u] = v;
-            visited[v] = false;
+            visited[v] = true;
             load[k] += d[v];
             segments++;
             if (v == 0)

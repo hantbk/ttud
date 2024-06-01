@@ -36,7 +36,7 @@ void updateBest()
     if (f + d[x[2 * n]][x[0]] < f_best)
     {
         f_best = f + d[x[2 * n]][x[0]];
-        cout << "update best " << f_best << endl;
+        // cout << "update best " << f_best << endl;
     }
 }
 
@@ -94,6 +94,8 @@ int main()
         visited[v] = false;
     x[0] = 0;
     Try(1);
+
+    cout << f_best << endl;
 
     return 0;
 }

@@ -2,8 +2,8 @@
 using namespace std;
 
 int n;
-int a[1000000];
-int ta[1000000];
+int a[1000009];
+int ta[1000009];
 
 // merge(begin, mid, end)
 void merge(int b, int m, int e)
@@ -42,7 +42,7 @@ void merge(int b, int m, int e)
 
 void mergeSort(int b, int e)
 {
-    if (b == e)
+    if (b >= e)
         return;
     int m = (b + e) / 2;
     mergeSort(b, m);

@@ -16,7 +16,7 @@ int main()
 
     for (int k = 1; k <= m; k++)
     {
-        a[0][k] = 0;
+        a[0][k] = 0; // Initialize the first row
     }
 
     // Complexity: O(n^3)
