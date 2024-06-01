@@ -1,3 +1,7 @@
+/*
+Cho dãy số A[] gồm n phần tử. Hãy tìm dãy con tăng dài nhất của dãy A[].
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 #define INF 1e9
