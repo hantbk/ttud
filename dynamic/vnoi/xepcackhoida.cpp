@@ -22,6 +22,7 @@ struct Block{
 
 Block a[MAX];
 int F[MAX]; // F[i] là số khối đá lớn nhất có thể xây dựng kể từ khối đá thứ i
+int H[MAX]; // H[i] là chiều cao lớn nhất có thể xây dựng kể từ khối đá thứ i
 
 // Sắp xếp các khối đá theo chiều cao giảm dần
 bool cmp(Block x, Block y){
@@ -30,6 +31,20 @@ bool cmp(Block x, Block y){
 
 void dp(){
     sort(a + 1, a + n + 1, cmp);
+
+    for(int i = 1; i <= n; i++){
+        F[i] = 1;
+        H[i] = a[i].h;
+        for(int j = 1; j < i; j++){
+            if(a[j].l < a[i].l && a[j].w < a[i].w){
+                F[i] = max(F[i], F[j] + 1);
+                H[i] = max(H[i], H[j] + a[i].h);
+            }
+        }
+    }
+    int res = *max_element(F + 1, F + n + 1);
+    int maxH = *max_element(H + 1, H + n + 1);
+    cout<<res<<" "<<maxH<<endl;
 }
 
 int main() {
