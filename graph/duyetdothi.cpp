@@ -1,18 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 #define INF 1e9
-#define MAX 100000
+#define MAX 1009
 #define ll long long
 #define MOD 1000000007
 
-int n, e[MAX][MAX]; // Ma tran ke
-int b[MAX]; // Mang danh dau
+int n, e[MAX][MAX]; // Adjacency matrix
+int b[MAX]; // Visited array
 queue<int> q;
 
 void NhapDoThi()
 {
     int m, u, v;
-    cout << " So dinh = "; cin >> n;
+    cin >> n;
     for (int i = 1; i <= n ; i++)
     {
         for (int j = 1; j <= n; j++)
@@ -21,18 +22,17 @@ void NhapDoThi()
         }
     }
     
-    cout<<" So canh = "; cin>>m;
+    cin >> m;
     for (int i = 1; i <= m; i++)
     {
-        cout<<"Canh thu "<<i<<": "; cin>>u>>v;
+        cin >> u >> v;
         e[u][v] = e[v][u] = 1;
     }
-    
 }
 
-// Duyet theo chieu sau (deep-first search)
+// Depth-First Search (DFS)
 void dfs(int k) {
-    cout<<"DFS tham dinh "<<k<<endl;
+    cout << k << " ";
     b[k] = 1;
     for (int i = 1; i <= n; i++)
     {
@@ -42,27 +42,43 @@ void dfs(int k) {
     }
 }
 
-// Duyet theo chieu rong (Breadth-first search)
+// Breadth-First Search (BFS)
 void bfs(int k) {
-    for (int i = 1; i <= n; i++)
-    {
-        b[i] = 0;
-    }
+    queue<int> q;
     b[k] = 1;
     q.push(k);
+
     while (!q.empty())
     {
         int c = q.front(); q.pop();
-        cout<<"BFS tham dinh "<<c<<endl;
+        cout << c << " ";
         for (int i = 1; i <= n; i++)
         {
-            if (b[i] == 0 && e[c][i])
+            if (b[i] == 0 && e[c][i] == 1)
             {
                 b[i] = 1;
                 q.push(i);
             }
         }
     }
+}
+
+void bfs_full() {
+    for (int i = 1; i <= n; i++) {
+        if (b[i] == 0) {
+            bfs(i);
+        }
+    }
+    cout << endl;
+}
+
+void dfs_full() {
+    for (int i = 1; i <= n; i++) {
+        if (b[i] == 0) {
+            dfs(i);
+        }
+    }
+    cout << endl;
 }
 
 int main()
@@ -72,8 +88,19 @@ int main()
     cout.tie(0);
 
     NhapDoThi();
-    dfs(1);
-    bfs(1);
+    // cout << "BFS Traversal: ";
+    // Initialize all nodes as unvisited
+    for (int i = 1; i <= n; i++) {
+        b[i] = 0;
+    }
+    bfs_full();
+
+    // cout << "DFS Traversal: ";
+    // // Initialize all nodes as unvisited
+    // for (int i = 1; i <= n; i++) {
+    //     b[i] = 0;
+    // }
+    // dfs_full();
 
     return 0;
 }
