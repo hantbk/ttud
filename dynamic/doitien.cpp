@@ -66,7 +66,7 @@ int main()
     memset(mem, -1, sizeof(mem));
 
     int result = MinCoin(N, x); // Calculate minimum coins needed for amount x using all denominations
-    if (result >= INF)
+    if (result == INF)
     {
         cout << "No solution" << endl; // If result is INF, no solution exists
     }

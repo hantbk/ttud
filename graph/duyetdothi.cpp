@@ -90,17 +90,17 @@ int main()
     NhapDoThi();
     // cout << "BFS Traversal: ";
     // Initialize all nodes as unvisited
-    for (int i = 1; i <= n; i++) {
-        b[i] = 0;
-    }
-    bfs_full();
-
-    // cout << "DFS Traversal: ";
-    // // Initialize all nodes as unvisited
     // for (int i = 1; i <= n; i++) {
     //     b[i] = 0;
     // }
-    // dfs_full();
+    // bfs_full();
+
+    // cout << "DFS Traversal: ";
+    // // Initialize all nodes as unvisited
+    for (int i = 1; i <= n; i++) {
+        b[i] = 0;
+    }
+    dfs_full();
 
     return 0;
 }
