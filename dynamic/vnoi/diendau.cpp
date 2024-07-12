@@ -1,38 +1,32 @@
-/*
-Cho n số tự nhiên a1, a2, ..., an.Ban đầu các số được đặt liên tiếp theo đúng thứ tự
-cách nhau bởi dấu "?" (ví dụ: a1?a2?a3?...?an). Cho trước số S, có cách nào
-thay các dấu "?" bằng dấu "+" hoặc "-" sao cho kết quả bằng S không?
-*/
-
 #include <bits/stdc++.h>
 using namespace std;
-#define INF 1e9
-#define MAX 1000009
-#define ll long long
-#define MOD 1000000009
+#define MAXN 100 // Adjust this based on problem constraints
+#define OFFSET 10000 // Adjust this based on the maximum possible absolute value of S
 
 int n, S;
-int a[MAX];
-int L[MAX][MAX]; // L[i][t] = 1 nếu có thể điền dấu vào i số đầu tiên và cho kết quả bằng t
+int a[MAXN];
+bool L[MAXN][2 * OFFSET + 1]; // L[i][t + OFFSET] = true if we can obtain sum t using the first i elements
 
 void dp()
 {
-    L[1][a[1]] = 1;
-    L[1][-a[1]] = 1;
-    for (int i = 2; i <= n; i++)
+    memset(L, 0, sizeof(L)); // Initialize all values to false
+    L[0][OFFSET] = true; // Initial condition: sum of 0 using 0 elements
+    
+    for (int i = 1; i <= n; i++)
     {
-        for (int t = 0; t <= S; t++)
+        for (int t = -OFFSET; t <= OFFSET; t++)
         {
-            if(L[i-1][t + a[i]] || L[i-1][t - a[i]]){ // Nếu có thể điền dấu vào i-1 số đầu tiên và cho kết quả bằng t + a[i] hoặc t - a[i]
-                L[i][t] = 1;
-            }
+            if (t - a[i] + OFFSET >= 0 && t - a[i] + OFFSET <= 2 * OFFSET)
+                L[i][t + OFFSET] = L[i][t + OFFSET] || L[i-1][t - a[i] + OFFSET];
+            if (t + a[i] + OFFSET >= 0 && t + a[i] + OFFSET <= 2 * OFFSET)
+                L[i][t + OFFSET] = L[i][t + OFFSET] || L[i-1][t + a[i] + OFFSET];
         }
     }
-    if(L[n][S]){
-        cout<<"YES"<<endl;
-    } else {
-        cout<<"NO"<<endl;
-    }
+    
+    if (S + OFFSET >= 0 && S + OFFSET <= 2 * OFFSET && L[n][S + OFFSET])
+        cout << "YES" << endl;
+    else
+        cout << "NO" << endl;
 }
 
 int main()
