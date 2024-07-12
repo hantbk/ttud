@@ -1,56 +1,64 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+
 using namespace std;
-#define INF 1e9
-#define MAX 1000009
-#define ll long long
-#define MOD 1000000009
 
+#define MAXN 10005
+
+vector<int> a;
 int n;
-int a[MAX];
-int L1[MAX]; // L1[i] là số phần tử của dãy con tăng dần kể từ phần tử 1 đến a[i]
-int L2[MAX]; // L2[i] là số phần tử của dãy con giảm dần kể từ phần tử 1 đến a[i]
 
-void dp()
-{
-    for (int i = 0; i < n; i++) // LIS tang dan
-        for (int j = 0; j < n; j++)
-            if (a[i] > a[j])
-                L1[i] = max(L1[i], L1[j] + 1);
-
-    for (int i = 0; i < n; i++) // LDS giam dan
-        for (int j = 0; j < i; j++)
-            if (a[i] < a[j])
-                L2[i] = max(L2[i], L2[j] + 1);
-
-    // for (auto x : L1){
-    //     if(x != 0)
-    //         cout << x << " ";
-    // }
-    // cout << endl;
-    // for (auto x : L2){
-    //     if(x != 0)
-    //         cout << x << " ";
-    // }
-    // cout << endl;
-
-    int res = *max_element(L1, L1 + n) + *max_element(L2, L2 + n) - 1;
-    cout << res;
+void DP(vector<int> &len, int begin, int end, int k) {
+    int i, u, v;
+    vector<int> b;
+    b.push_back(begin); len[begin] = 1;
+    
+    for (i=begin+k; i!=end; i+=k) {
+        if (a[i] > a[b.back()]) {
+            b.push_back(i);
+            len[i] = b.size();
+            continue;
+        }
+        
+        for (u=0, v=b.size()-1; u<v; ) {
+            int mid = (u+v)/2;
+            if (a[b[mid]] < a[i]) u = mid+1;
+            else v = mid;
+        }
+        
+        if (a[i] < a[b[u]])
+            b[u] = i;
+        len[i] = u+1;
+    }
 }
 
-int main()
-{
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-
-    cin >> n;
-    for (int i = 0; i < n; i++)
-    {
-        cin >> a[i];
-        L1[i] = 1;
-        L2[i] = 1;
+main() {
+    
+    int i, m;
+    while (cin >> n) {
+        a.clear();
+        for (i=0; i<n; i++) {
+            cin >> m;
+            a.push_back(m);
+        }
+        
+        vector<int> inc(n+2), dec(n+2);
+        DP(inc, 0, n, 1); DP(dec, n-1, -1, -1);
+/*        
+        for (i=0; i<n; i++)
+            printf(" %d",inc[i]);
+        cout << endl;
+        for (i=0; i<n; i++)
+            printf(" %d",dec[i]);
+        cout << endl;
+*/  
+        int temp, maxlen = 0;
+        for (i=0; i<n; i++) {
+            temp = min(inc[i], dec[i]);
+            if (temp > maxlen) maxlen = temp;
+        }
+        
+        cout << maxlen*2-1 << endl;
+//        inc.clear(); dec.clear();
     }
-    dp();
-
-    return 0;
 }
