@@ -1,42 +1,33 @@
-#include<bits/stdc++.h>
+#include <iostream>
 using namespace std;
-#define INF 1e9
-#define MAX 1000009
-#define ll long long
-#define MOD 1000000009
 
-int N;
-int d[MAX];
-int F[MAX][MAX]; // F[i][j] là số phép nhân để tính tích của các ma trận từ i đến j
+const int N = 310;
+int d[N], L[N][N], n;
 
-void dp(){
-    for(int i = 1; i <= N; i++) F[i][i] = 0;
-
-    for(int i = 1; i < N; i++)
-        F[i][i + 1] = d[i-1] * d[i] * d[i+1];
-
-    for(int len = 2; len < N; len++){
-        for(int i = 1; i <= N - len; i++){
-            int j = i + len;
-            F[i][j] = INF;
-            for(int k = i + 1; k < j; k++)
-                F[i][j] = min(F[i][j], F[i][k] + F[k + 1][j] + d[i-1] * d[k] * d[j]);
+int calc(int i, int j)
+{
+    if (L[i][j] == -1)
+    {
+        if (i == j)
+            L[i][j] = 0;
+        else
+        {
+            L[i][j] = calc(i + 1, j) + d[i - 1] * d[i] * d[j];
+            for (int k = i; k < j; k++)
+                L[i][j] = min(L[i][j], calc(i, k) + calc(k + 1, j) + d[i - 1] * d[k] * d[j]);
         }
     }
-
-    cout << F[1][N];
+    return L[i][j];
 }
 
-int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-
-    cin >> N;
-    for(int i = 1; i <= N; i++)
+int main()
+{
+    cin >> n;
+    for (int i = 0; i <= n; i++)
         cin >> d[i];
 
-    dp();
-
-    return 0;
+    for (int i = 1; i <= n; i++)
+    for (int j = 1; j <= n; j++)
+        L[i][j] = -1;
+    cout << calc(1, n);
 }

@@ -1,49 +1,92 @@
-/*
-Ở đất nước Omega người ta chỉ tiêu tiền xu. Có 𝑁 loại tiền xu, loại thứ 𝑖
-có mệnh giá là 𝐴𝑖 đồng. Một người khách du lịch đến Omega du lịch với số 
-tiền 𝑀 đồng. Ông ta muốn đổi số tiền đó ra tiền xu Omega để tiện tiêu dùng. 
-Ông ta cũng muốn số đồng tiền đổi được là ít nhất (cho túi tiền đỡ nặng khi đi đây đi đó). 
-Bạn hãy giúp ông ta tìm cách đổi tiền.
-*/
-#include<bits/stdc++.h>
+#include <iostream>
+#include <vector>
 using namespace std;
-#define INF 1e9
-#define MAX 1000009
-#define ll long long
-#define MOD 1000000009
 
-int N, M;
-int a[MAX];
-int F[MAX][MAX]; // F[i][j] là số đồng xu ít nhất có thể đổi được từ i loại tiền đầu tiên sao cho tổng số tiền đổi được là j
+// Struct để truy vết
+struct Trace
+{
+    int coin; // Chỉ số đồng tiền được thêm vào
+    int i; // i và j dùng để truy vết trong bảng QHĐ
+    int j;
 
-void dp(){
-    for(int i = 0; i <= N; i++)
-        F[i][0] = 0;
-    for(int j = 0; j <= M; j++)
-        F[0][j] = INF; // Không thể đổi được tổng số tiền j nếu không có loại tiền nào
+    Trace(int c = 0, int row = 0, int col = 0)
+        : coin(c), i(row), j(col) {};
+};
 
-    for(int i = 1; i <= N; i++){
-        for(int t = 1; t <= M; t++){
-            if(t < a[i])
-                F[i][t] = F[i - 1][t];
+const int N = 1e6 + 10;
+int n, m, A[N];
+vector<int> L, P;
+vector<vector<Trace>> d;
+
+int main()
+{
+    cin >> n >> m;
+    for (int i = 1; i <= n; i++)
+        cin >> A[i];
+
+    // Quy ước inf = -1
+    P = vector<int>(m + 1, -1);
+    L.resize(m + 1);
+    d = vector<vector<Trace>>(n + 1, vector<Trace>(m + 1));
+
+    // Bước QHĐ
+    for (int i = 1; i <= n; i++)
+    {
+        L[0] = 0;
+        for (int j = 1; j <= m; j++)
+            if (A[i] > j)
+            {
+                L[j] = P[j];
+                d[i][j] = Trace(0, i - 1, j);
+            }
             else
-                F[i][t] = min(F[i - 1][t], F[i][t - a[i]] + 1);
-        }
+            {
+                // L[j] = min(P[j], L[j - A[i]]);
+                // Nếu P[j] và L[j - A[i]] khác inf
+                if (P[j] != -1 && L[j - A[i]] != -1)
+                {
+                    if (P[j] < L[j - A[i]] + 1)
+                    {
+                        L[j] = P[j];
+                        d[i][j] = Trace(0, i - 1, j);
+                    }
+                    else
+                    {
+                        L[j] = L[j - A[i]] + 1;
+                        d[i][j] = Trace(i, i, j - A[i]);
+                    }
+                }
+                // Chỉ L[j - A[i]] là inf
+                else if (P[j] != -1)
+                {
+                    L[j] = P[j];
+                    d[i][j] = Trace(0, i - 1, j);
+                }
+                // Chỉ P[j] là inf
+                else if (L[j - A[i]] != -1)
+                {
+                    L[j] = L[j - A[i]] + 1;
+                    d[i][j] = Trace(i, i, j - A[i]);
+                }
+                // Cả hai số là inf
+                else
+                    L[j] = -1;
+            }
+        P = L;
     }
+    cout << L[m] << '\n';
 
-    cout << F[N][M];
-}
-
-int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-
-    cin >> N >> M;
-    for(int i = 1; i <= N; i++)
-        cin >> a[i];
-
-    dp();
-
-    return 0;
+    // Truy vết
+    if (L[m] != -1)
+    {
+        vector<int> cnt(n + 1);
+        Trace t = d[n][m];
+        while (t.coin != 0 && t.j != 0)
+        {
+            cnt[t.coin]++;
+            t = d[t.i][t.j];
+        }
+        for (int i = 1; i <= n; i++)
+            cout << cnt[i] << ' ';
+    }
 }
